@@ -1,52 +1,57 @@
 import json
 
-with open("results_file.txt", "r") as result:
-    results_file = json.loads(result.read())
-
 class Player():
-    def __init__(self, first_name, last_name, height_cm, weight_kg, haircolor):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.height_cm = height_cm
-        self.weight_kg = weight_kg
-        self.haircolor = haircolor
+    def __init__(self):
+        self.first_name = input("Introduce el nombre del jugador: ")
+        self.last_name = input("Introduce el apellido: ")
+        self.height_cm = float(input("Introduce la altura en cms: "))
+        self.weight_kg = float(input("Introduce el peso en kgs: "))
+        self.haircolor = input("Introduce el color del pelo: ")
+
+    def __str__(self):
+        return 'Player: %s %s' % (self.first_name, self.last_name)
 
     def weight_to_lbs(self):
         pounds = self.weight_kg * 2.20462262
         return pounds
 
 class BasketballPlayer(Player):
-    def __init__(self, first_name, last_name, height_cm, weight_kg, points, rebounds, assists, haircolor):
-        super().__init__(first_name=first_name, last_name=last_name, height_cm=height_cm, weight_kg=weight_kg, haircolor=haircolor)
-        self.points = points
-        self.rebounds = rebounds
-        self.assists = assists
+    def __init__(self):
+        super().__init__()
+        self.points = input("Introduce el numero de puntos: ")
+        self.rebounds = input("Introduce el numero de rebotes: ")
+        self.assists = input("Introduce el numer de asistencias")
 
 class FootballPlayer(Player):
-    def __init__(self, first_name, last_name, height_cm, weight_kg, goals, yellow_cards, red_cards, haircolor):
-        super().__init__(first_name=first_name, last_name=last_name, height_cm=height_cm, weight_kg=weight_kg, haircolor=haircolor)
-        self.goals = goals
-        self.yellow_cards = yellow_cards
-        self.red_cards = red_cards
+    def __init__(self):
+        super().__init__()
+        self.goals = input("Introduce el numero de goles: ")
+        self.yellow_cards = input("Introduce el numero de tarjetas amarillas: ")
+        self.red_cards = input("Introduce el numero de tarjetas rojas: ")
+
+with open("results_list.txt", "r") as results_file:
+    results_list = json.loads(results_file.read())
+
+while True:
+    opcion = input("Desea: 1)añadir un jugador? o, 2)Salir del programa?")
+    if opcion == "1":
+        veces=int(input("cuantos jugadores quieres añadir?"))
+        for i in range(veces):
+            jugador = FootballPlayer()
+            jugador_dic = jugador.__dict__
+            if jugador_dic["first_name] not in results_list:
+                results_list.append(jugador_dic)
+                print("Has añadido los datos de: ", jugador_dic["first_name"], jugador_dic["last_name"])
+                with open("results_list.txt", "w") as results_file:
+                    results_file.write(json.dumps(results_list))
+            else:
+                print(jugador_dic["first_name"], jugador_dic["last_name"], "Ya estaba en la base de datos")
+                pass
+    elif opcion == "2":
+        break
+    else:
+        opcion = input("Desea: 1)añadir un jugador o,2)Salir del programa?")
 
 
-kev_dur = BasketballPlayer(first_name="Kevin", last_name="Durant", height_cm=210, weight_kg=108, points=27.2, rebounds=7.1, assists=4,
-                           haircolor=input("introduce el color de pelo de Kevin Durant: "))
-messi = FootballPlayer(first_name="Lionel", last_name="Messi", height_cm=170, weight_kg=67, goals=575, yellow_cards=67, red_cards=0,
-                       haircolor=input("introduce el color de pelo de Messi "))
 
-jugador1=kev_dur.__dict__ #creo dos variables que guardan las caracteristicas de cada jugador en formato diccionario
-jugador2=messi.__dict__
 
-jugadores=[jugador1, jugador2] #creo una lista con los diccionarios de cada jugador
-num_jugadores=len(jugadores)
-
-results_file = [] #vacio el archivo results_file.txt
-
-for x in jugadores: #bucle que recorre la lista jugadores y si alguno de esos jugadores no esta en la lista, los añade
-    player= str(x)
-    if player not in results_file:
-        results_file.append(player)
-
-with open("results_file.txt", "w") as result:
-    result.write(json.dumps(results_file))
