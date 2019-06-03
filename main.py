@@ -35,16 +35,16 @@ with open("results_list.txt", "r") as results_file:
 while True:
     opcion = input("Desea: 1)añadir un jugador? o, 2)Salir del programa?")
     if opcion == "1":
-        veces=int(input("cuantos jugadores quieres añadir?"))
-        for i in range(veces):
+        veces=int(input("cuantos jugadores quieres añadir?"))  #preguntamos al usuario cuantos jugadores quiere añadir y lo guardamos en veces
+        for i in range(veces):  #creamos un for que haga tantas pasadas como veces
             jugador = FootballPlayer()
-            jugador_dic = jugador.__dict__
-            if jugador_dic["first_name] not in results_list:
+            jugador_dic = jugador.__dict__   #creamos una variable que tenga el valor de el diccionario de la clase instanciada
+            if jugador_dic["first_name"] not in results_list: #si el campo "first_name" del diccionario no esta en la lista:
                 results_list.append(jugador_dic)
                 print("Has añadido los datos de: ", jugador_dic["first_name"], jugador_dic["last_name"])
                 with open("results_list.txt", "w") as results_file:
                     results_file.write(json.dumps(results_list))
-            else:
+            else:  #si el "first_name" esta en la lista:
                 print(jugador_dic["first_name"], jugador_dic["last_name"], "Ya estaba en la base de datos")
                 pass
     elif opcion == "2":
