@@ -33,24 +33,26 @@ with open("results_list.txt", "r") as results_file:
     results_list = json.loads(results_file.read())
 
 while True:
-    opcion = input("Desea: 1)añadir un jugador? o, 2)Salir del programa?")
+    opcion = input("Desea: 1)añadir un jugador? o, 2)Salir del programa?")  #preguntamos al usuario si quiere añadir uno o mas jugadores
     if opcion == "1":
-        veces=int(input("cuantos jugadores quieres añadir?"))  #preguntamos al usuario cuantos jugadores quiere añadir y lo guardamos en veces
-        for i in range(veces):  #creamos un for que haga tantas pasadas como veces
+        veces=int(input("cuantos jugadores quieres añadir?"))  #pedimos cuantos jugadores quiere añadir y lo guardamos en la variable veces
+        for i in range(veces):                                 #bucle que se repite tantas veces como jugadores quiera añadir
             jugador = FootballPlayer()
-            jugador_dic = jugador.__dict__   #creamos una variable que tenga el valor de el diccionario de la clase instanciada
-            if jugador_dic["first_name"] not in results_list: #si el campo "first_name" del diccionario no esta en la lista:
+            jugador_dic = jugador.__dict__
+            if jugador_dic["first_name"] not in results_list:   #si el jugador no esta en la lista lo añadimos al archivo
                 results_list.append(jugador_dic)
                 print("Has añadido los datos de: ", jugador_dic["first_name"], jugador_dic["last_name"])
                 with open("results_list.txt", "w") as results_file:
                     results_file.write(json.dumps(results_list))
-            else:  #si el "first_name" esta en la lista:
+            else:                                               #si el jugador no esta en la lista, imprimimos un mensaje diciendo que ya estaba añadido
                 print(jugador_dic["first_name"], jugador_dic["last_name"], "Ya estaba en la base de datos")
                 pass
     elif opcion == "2":
         break
     else:
         opcion = input("Desea: 1)añadir un jugador o,2)Salir del programa?")
+
+
 
 
 
